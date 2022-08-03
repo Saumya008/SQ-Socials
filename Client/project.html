@@ -99,22 +99,23 @@
     <script>
     $(document).ready(function() {
    
-        var wrapper         = $("tbody"); //Fields wrapper
-        var add_button      = $(".add_field_button"); //Add button ID
-        
-        var x = 1; 
+        var wrapper         = $("tbody"); 
+        var add_button      = $(".add_field_button"); 
+      
         $(add_button).click(function(e){
             e.preventDefault();
             var title = $(".title").val();
+            var desc = $(".desc").val();
             var deadline = $(".deadline").val();
             var assign = $(".assign").val();
-            var desc = $(".desc").val();
-            $(".data-table tbody").append("<tr><td>"+title+"</td><td>"+desc+"</td><td>"+deadline+"</td><td>"+assign+"</td><td><button class='btn btn-info btn-xs btn-edit'>Edit</button><button class='btn btn-danger btn-xs btn-delete'>Delete</button></td></tr>");
+            
+            $(".data-table tbody").append("<tr data-title='"+title+"' data-desc='"+desc+"' data-deadline='"+deadline+"' data-assign='"+assign+"'><td>"+title+"</td><td>"+desc+"</td><td>"+deadline+"</td><td>"+assign+"</td><td><button class='btn btn-info btn-xs btn-edit'>Edit</button><button class='btn btn-danger btn-xs btn-delete'>Delete</button></td></tr>");
 
             var title = $(".title").val("");
+            var desc = $(".desc").val("");
             var deadline = $(".deadline").val("");
             var assign = $(".assign").val("");
-            var desc = $(".desc").val("");
+            
             
     });
     
@@ -123,16 +124,17 @@
         });
 
         $("body").on("click", ".btn-edit", function(){
-            var title = $(this).parents("tr").attr('.title');
-            var deadline = $(this).parents("tr").attr('.deadline');
-            var assign = $(this).parents("tr").attr('.assign');
-            var desc = $(this).parents("tr").attr('.desc');
+            var title = $(this).parents("tr").attr('data-title');
+            var desc = $(this).parents("tr").attr('data-desc');
+            var deadline = $(this).parents("tr").attr('data-deadline');
+            var assign = $(this).parents("tr").attr('data-assign');
+            
 
             $(this).parents("tr").find("td:eq(0)").html('<input name="edit_title" value="'+title+'">');
-            $(this).parents("tr").find("td:eq(1)").html('<input name="edit_desc" value="'+deadline+'">');
-            $(this).parents("tr").find("td:eq(2)").html('<input name="edit_deadline" value="'+assign+'">');
-            $(this).parents("tr").find("td:eq(3)").html('<input name="edit_assign" value="'+desc+'">');
-
+            $(this).parents("tr").find("td:eq(1)").html('<input name="edit_desc" value="'+desc+'">');
+            $(this).parents("tr").find("td:eq(2)").html('<input name="edit_deadline" value="'+deadline+'">');
+            $(this).parents("tr").find("td:eq(3)").html('<input name="edit_assign" value="'+assign+'">');
+           
 
             $(this).parents("tr").find("td:eq(4)").prepend("<button class='btn btn-info btn-xs btn-update'>Update</button><button class='btn btn-warning btn-xs btn-cancel'>Cancel</button>")
             $(this).hide();
@@ -140,21 +142,22 @@
 
         $("body").on("click", ".btn-update", function(){
             var title = $(this).parents("tr").find("input[name='edit_title']").val();
-            var deadline = $(this).parents("tr").find("input[name='edit_desc']").val();
-            var assign = $(this).parents("tr").find("input[name='edit_deadline']").val();
-            var desc = $(this).parents("tr").find("nput[name='edit_assign']").val();
+            var desc = $(this).parents("tr").find("input[name='edit_desc']").val();
+            var deadline = $(this).parents("tr").find("input[name='edit_deadline']").val();
+            var assign = $(this).parents("tr").find("input[name='edit_assign']").val();
+           
 
             $(this).parents("tr").find("td:eq(0)").text(title);
-            $(this).parents("tr").find("td:eq(1)").text(deadline);
-            $(this).parents("tr").find("td:eq(2)").text(assign);
-            $(this).parents("tr").find("td:eq(3)").text(desc);
+            $(this).parents("tr").find("td:eq(1)").text(desc);
+            $(this).parents("tr").find("td:eq(2)").text(deadline);
+            $(this).parents("tr").find("td:eq(3)").text(assign);
+            
 
-
-            $(this).parents("tr").attr(title);
-            $(this).parents("tr").attr(deadline);
-            $(this).parents("tr").attr(assign);
-            $(this).parents("tr").attr(desc);
-
+            $(this).parents("tr").attr('data-title',title);
+            $(this).parents("tr").attr('data-desc',desc);
+            $(this).parents("tr").attr('data-deadline',deadline);
+            $(this).parents("tr").attr('data-assign',assign);
+          
             $(this).parents("tr").find(".btn-edit").show();
             $(this).parents("tr").find(".btn-cancel").remove();
             $(this).parents("tr").find(".btn-update").remove();
